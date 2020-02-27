@@ -3,7 +3,7 @@ using Entitas;
 using Entitas.CodeGeneration.Attributes;
 using UnityEngine;
 
-public struct CollisionData
+public class CollisionData
 {
     public GameEntity Collider;
     public Vector3 AverageContactPointPosition;

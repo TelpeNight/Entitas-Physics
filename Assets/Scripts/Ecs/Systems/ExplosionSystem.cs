@@ -7,23 +7,26 @@ namespace Ecs.Systems
 {
     public class ExplosionSystem : IExecuteSystem
     {
-        private readonly GameContext m_context;
+        private readonly GameObject m_explosionPrefab;
         private readonly IGroup<GameEntity> m_group;
 
-        public ExplosionSystem(GameContext context)
+        public ExplosionSystem(GameContext context, GameObject explosionPrefab)
         {
-            m_context = context;
+            m_explosionPrefab = explosionPrefab;
             m_group = context.GetGroup(GameMatcher.Collision.WithTag(GameTag.Bomb));
         }
 
         public void Execute()
         {
-            foreach (GameEntity entity in m_group.AsEnumerable())
+            foreach (GameEntity entity in m_group)
             {
                 //TODO cache predicate
-                if (entity.collision.Colliders.Exists(e => e.Collider.HasTag(GameTag.Ground)))
+                CollisionData collision = entity.collision.Colliders.Find(e => e.Collider.HasTag(GameTag.Ground));
+                if (collision != null)
                 {
-                    Debug.Log("EXPLOSION!!!");
+                    GameObject explosion = Object.Instantiate(m_explosionPrefab, collision.AverageContactPointPosition,
+                        Quaternion.identity);
+                    Object.Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);
                     entity.RemoveTag(GameTag.Bomb);
                 }
             }

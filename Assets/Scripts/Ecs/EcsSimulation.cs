@@ -8,6 +8,8 @@ namespace Ecs
 {
     public class EcsSimulation : MonoBehaviour
     {
+        public GameObject m_explosionPrefab;
+        
         private Entitas.Systems m_systems; 
         
         private void Start()
@@ -20,7 +22,7 @@ namespace Ecs
                 .Add(new Feature("BeginFrame")
                     .Add(physicSystems.BeginFrameSystems)
                     .Add(new TimeSystem(game)))
-                .Add(new ExplosionSystem(game))
+                .Add(new ExplosionSystem(game, m_explosionPrefab))
                 .Add(new Feature("EndFrame")
                     .Add(physicSystems.EndFrameSystems)
                     .Add(new GameEventSystems(Contexts.sharedInstance)));

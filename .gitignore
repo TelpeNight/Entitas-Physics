@@ -43,6 +43,7 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+*.DotSettings
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -62,4 +63,3 @@ crashlytics-build.properties
 #Jenny
 Jenny
 Jenny-*
-*.DotSettings
